@@ -1,0 +1,16 @@
+import cx_Oracle
+con=cx_Oracle.connect('SYSTEM/1234@localhost/xe')
+cur=con.cursor()
+cur.execute("select companyname, emailid from Employer where industrytype='IT' and city='Bangalore'")
+print(cur.fetchall())
+c=input("Enter the city name:Chennai, Bangalore or Mumbi\n")
+cur.execute("""select companyname, mobile, emailid from employer where renewalstatus=:p1 and city = :p2""", (str('Active'),c))
+print(cur.fetchall())
+cur.execute("""select companyname, mobile, emailid from employer where renewalstatus=:p1 and city = :p2""", (c,str('Active')))
+print(cur.fetchall())
+cur.execute("""select companyname, mobile, emailid from employer where renewalstatus=:p and city = :q""", {'p':str('Active'), 'q':c})
+print(cur.fetchall())
+cur.execute("""select companyname, mobile, emailid from employer where renewalstatus=:p and city = :q""", {'q':c, 'p':str('Active')})
+print(cur.fetchall())
+con.close()
+#NOTE -->> we get the same result in case of named bind variables but not in case of positional bind variables

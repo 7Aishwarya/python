@@ -1,0 +1,18 @@
+import cx_Oracle
+con=cx_Oracle.connect('SYSTEM/1234@localhost/xe')
+cur=con.cursor()
+cur.execute("select username, usertype from users where userid=4")
+print("Username and usertype of the user with userid=4 is:\n",cur.fetchall())
+cur.execute('''update users set Username='lookingforjob@yahoo.com',
+UserType='Jobseeker' where UserId=4''')
+con.commit()
+cur.execute("select username, UserType from users where UserId=4")
+print("Username and usertype of the user with userid=4 is:\n", cur.fetchall())
+cur.execute("select password from users where userid=1")
+print("Password of the user with userid=1 is:\n", cur.fetchall())
+passw=input("Enter the new password of the user with userid=1:")
+cur.execute("update users set password=:a", {'a':passw})
+con.commit()
+cur.execute("select password from users where userid=1")
+print("Password of the user with userid=1 is:\n", cur.fetchall())
+con.close()
