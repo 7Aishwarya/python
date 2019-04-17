@@ -1,0 +1,3 @@
+These are the python assignments which include:
+1> Database connectivity in python
+2> Object Oriented Programming
